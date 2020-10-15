@@ -24,11 +24,12 @@ Patch size : 64x64 , Overlap = 32
 <img width='128',src='https://user-images.githubusercontent.com/52492949/96068639-76dec300-0ed7-11eb-9acf-a874dac0be29.png'>
 <img width='128',src='https://user-images.githubusercontent.com/52492949/96068668-85c57580-0ed7-11eb-99ad-21cde23fb17a.png'>
 </div>
+'''
 <div>
 <img width='128',src='https://user-images.githubusercontent.com/52492949/96068674-89f19300-0ed7-11eb-8631-eacb26765cf8.png'>
 <img width='128',src='https://user-images.githubusercontent.com/52492949/96068653-7d6d3a80-0ed7-11eb-9930-e9bf2e42ef7c.png'>
 </div>
-
+'''
 
 # Model 
 
