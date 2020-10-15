@@ -11,8 +11,8 @@ Dataset : Image 50개 / Mask 50개
 Image Shape : 512x512 
 
 <div>
-<img width='256' src='https://user-images.githubusercontent.com/52492949/96067497-d4254500-0ed4-11eb-8a41-9cd7717efb13.png'>
-<img width='256' src='https://user-images.githubusercontent.com/52492949/96067543-eef7b980-0ed4-11eb-8cda-e46c83e94371.png'>
+<img width='128' src='https://user-images.githubusercontent.com/52492949/96067497-d4254500-0ed4-11eb-8a41-9cd7717efb13.png'>
+<img width='128' src='https://user-images.githubusercontent.com/52492949/96067543-eef7b980-0ed4-11eb-8cda-e46c83e94371.png'>
 </div>
 
 
@@ -22,13 +22,13 @@ Data가 50개라 patch size로 잘라서 데이터 수를 증가시키고, 빈�
 Patch size : 64x64 , Overlap = 32
 
 <div>
-<img width='256' src='https://user-images.githubusercontent.com/52492949/96068639-76dec300-0ed7-11eb-9acf-a874dac0be29.png'>
-<img width='256' src='https://user-images.githubusercontent.com/52492949/96068668-85c57580-0ed7-11eb-99ad-21cde23fb17a.png'>
+<img width='128' src='https://user-images.githubusercontent.com/52492949/96068639-76dec300-0ed7-11eb-9acf-a874dac0be29.png'>
+<img width='128' src='https://user-images.githubusercontent.com/52492949/96068668-85c57580-0ed7-11eb-99ad-21cde23fb17a.png'>
 </div>
 
 <div>
-<img width='256' src='https://user-images.githubusercontent.com/52492949/96068674-89f19300-0ed7-11eb-8631-eacb26765cf8.png'>
-<img width='256' src='https://user-images.githubusercontent.com/52492949/96068653-7d6d3a80-0ed7-11eb-9930-e9bf2e42ef7c.png'>
+<img width='128' src='https://user-images.githubusercontent.com/52492949/96068674-89f19300-0ed7-11eb-8631-eacb26765cf8.png'>
+<img width='128' src='https://user-images.githubusercontent.com/52492949/96068653-7d6d3a80-0ed7-11eb-9930-e9bf2e42ef7c.png'>
 </div>
 
 
