@@ -15,6 +15,7 @@ Image Shape : 512x512
 <img width='128' src='https://user-images.githubusercontent.com/52492949/96067543-eef7b980-0ed4-11eb-8cda-e46c83e94371.png'>
 </div>
 
+
 ### Image Patch 
 Data가 50개라 patch size로 잘라서 데이터 수를 증가시키고, 빈배경 제거 ( 50개 -> 12250개 -> 7497개 )
 
@@ -30,14 +31,12 @@ Patch size : 64x64 , Overlap = 32
 <img width='128' src='https://user-images.githubusercontent.com/52492949/96068653-7d6d3a80-0ed7-11eb-9930-e9bf2e42ef7c.png'>
 </div>
 
+
 ### Data Split 
-train : val : test = 0.6 : 0.2 : 0.2 
+train , val , test = 60% , 20% , 20%
 
-train : 4492개
+train , val , test = 4492 , 1497 , 1498
 
-val : 1497개
-
-test : 1498
 
 ### Model 
 
