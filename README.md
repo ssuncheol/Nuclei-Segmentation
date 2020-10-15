@@ -17,7 +17,7 @@ Image Shape : 512x512
 
 
 ### Image Patch 
-Data가 50개라 patch size로 잘라서 데이터 수를 증가시키고, 빈배경 제거 ( 50개 -> 12250개 -> 7497개 )
+Data가 50개라 patch size로 잘라서 데이터 증가  빈배경 제거 ( 50개 -> 12250개 -> 7497개 )
 
 Patch size : 64x64 , Overlap = 32
 
