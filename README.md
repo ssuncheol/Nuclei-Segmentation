@@ -13,11 +13,15 @@ Image Shape : 512x512
 </div>
 
 #Image Patch 
-Data가 50개라 patch size로 잘라서 데이터 수를 증가시켰다. 
-Patch
+Data가 50개라 patch size로 잘라서 데이터 수를 증가시켰다. ( 50개 -> 12250개 )
+Patch size : 64x64
+Overlap = 32
+
+
+
 
 
 
 #Model 
 
-U-net ![img/u-net-architecture.png](img/u-net-architecture.png)
+U-net 
