@@ -50,11 +50,8 @@ train , val , test = 4492 , 1497 , 1498
 <img width='512' src='https://user-images.githubusercontent.com/52492949/96069444-34b68100-0ed9-11eb-98da-7ab557b9ab1e.png'>
 
 
-### Test 
-
-
-
-### Evaluate 
+ 
+### Metric
 
 Iou 
 
