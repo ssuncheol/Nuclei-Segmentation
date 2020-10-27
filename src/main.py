@@ -17,7 +17,6 @@ from dataloader import Nuclei
 from model import UNET 
 from evaluate import IOU
 
-
 def main():
     wandb.init(project="nuclei-segmentation")
     parser = argparse.ArgumentParser()
@@ -31,7 +30,7 @@ def main():
                     help='dropout rate')
     parser.add_argument('--epochs',
                     type=int,
-                    default=1,
+                    default=30,
                     help='num epochs')
     parser.add_argument('--train_batch',
                     type=int,
@@ -40,6 +39,10 @@ def main():
     parser.add_argument('--val_batch',
                     type=int,
                     default=64,
+                    help='validation batch size')
+    parser.add_argument('--test_batch',
+                    type=int,
+                    default=32,
                     help='validation batch size')
     parser.add_argument('--weight_decay',
                     type=float,
@@ -55,25 +58,24 @@ def main():
 
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
     
-    
+    #dataloader
+
     transform=transforms.Compose([transforms.ToTensor()])
     
     train =Nuclei('/daintlab/data/TNBC/train',transform=transform)
     val = Nuclei('/daintlab/data/TNBC/val',transform=transform)
     test = Nuclei('/daintlab/data/TNBC/test',transform=transform)
 
-    trn_loader = data.DataLoader(train,batch_size=args.train_batch,shuffle=True,num_workers=0)
-    val_loader = data.DataLoader(val,batch_size=args.val_batch,shuffle=True,num_workers=0)
-    test_loader = data.DataLoader(test,batch_size=1,shuffle=False,num_workers=0)
-    
-    print(len(trn_loader))
-    print(len(val_loader))
-    print(len(test_loader))
+    trn_loader = data.DataLoader(train,batch_size=args.train_batch,shuffle=True,num_workers=4)
+    val_loader = data.DataLoader(val,batch_size=args.val_batch,shuffle=True,num_workers=4)
+    test_loader = data.DataLoader(test,batch_size=args.test_batch,shuffle=False,num_workers=0)
     
     #model 
     
     model =UNET().cuda()
     model = nn.DataParallel(model)
+    
+    #loss function
     
     criterion = nn.BCEWithLogitsLoss().cuda()
     optimizer = optim.Adam(model.parameters(),lr=args.lr,weight_decay=args.weight_decay)
@@ -148,14 +150,14 @@ def main():
             masking.append(wandb.Image(
             output[0]))
             iou_value = IOU(output,label)
-            wandb.log({'IOU':wandb.Table(iou_value)})
+            wandb.log({'IOU':wandb.Histogram(iou_value)})
             iou_values+=iou_value
         wandb.log({'Raw' : raw_images,
                    'Ground truth' : ground_truth,
                    'Masking' : masking})
-        print(iou_values.mean())
+        print(iou_values/len(test_loader))
         
-        import ipdb; ipdb.set_trace()
+        #import ipdb; ipdb.set_trace()
     
 
 
