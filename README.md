@@ -21,6 +21,7 @@ Image Shape : 512x512
 
 
 ### Image Patch 
+
 Data가 50개라 patch size로 잘라서 데이터 증가  빈배경 제거 ( 50개 -> 12250개 -> 7497개 )
 
 Patch size : 64x64 , Overlap = 32
@@ -37,13 +38,15 @@ Patch size : 64x64 , Overlap = 32
 
 
 ### Data Split 
+
 train , val , test = 60% , 20% , 20%
 
 train , val , test = 4492 , 1497 , 1498
 
 
 ### Model 
-Unet
+
+# Unet
 
 <img width='512' src='https://user-images.githubusercontent.com/52492949/96069444-34b68100-0ed9-11eb-98da-7ab557b9ab1e.png'>
 
@@ -52,14 +55,18 @@ Unet
 
 
 
+
+
 ### Evaluate 
 
-Iou 
+# Iou 
+
+
 
 ### Results  
 
 
-
+---
 
 ### Run Example 
 
