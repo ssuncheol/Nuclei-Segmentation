@@ -44,9 +44,8 @@ train , val , test = 60% , 20% , 20%
 train , val , test = 4492 , 1497 , 1498
 
 
-### Model 
+### Model [Unet]
 
-# Unet
 
 <img width='512' src='https://user-images.githubusercontent.com/52492949/96069444-34b68100-0ed9-11eb-98da-7ab557b9ab1e.png'>
 
@@ -55,11 +54,9 @@ train , val , test = 4492 , 1497 , 1498
 
 
 
-
-
 ### Evaluate 
 
-# Iou 
+Iou 
 
 
 
