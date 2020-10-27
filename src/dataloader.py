@@ -26,7 +26,7 @@ class Nuclei(Dataset):
       image_name = os.path.join(self.root,"image",self.image_paths[index])
       target_name = os.path.join(self.root,"mask",self.target_paths[index])
       
-      image = Image.open(image_name).convert('L')
+      image = Image.open(image_name).convert('RGB')
       mask  = Image.open(target_name).convert('L')
       
       image =np.array(image)
@@ -50,11 +50,3 @@ class Nuclei(Dataset):
       return len(self.image_paths)
 
 transform=transforms.Compose([transforms.ToTensor()])
-
-train =Nuclei('/daintlab/data/TNBC/train',transform=transform)
-val = Nuclei('/daintlab/data/TNBC/val',transform=transform)
-test = Nuclei('/daintlab/data/TNBC/test',transform=transform)
-
-trn_loader = data.DataLoader(train,batch_size=64,shuffle=True)
-val_loader = data.DataLoader(val,batch_size=64,shuffle=True)
-test_loader = data.DataLoader(test,batch_size=1,shuffle=False)

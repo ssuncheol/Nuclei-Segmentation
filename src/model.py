@@ -1,3 +1,6 @@
+import torch 
+import torch.nn as nn
+
 class UNET(nn.Module):
     def __init__(self):
         super(UNET,self).__init__()
@@ -13,11 +16,9 @@ class UNET(nn.Module):
 
            return cbr 
 
-    
-
         #Encoder 
 
-        self.enc1_1 = CBR2d(1,8)
+        self.enc1_1 = CBR2d(3,8)
         self.enc1_2 = CBR2d(8,8)
 
         self.pool1 = nn.MaxPool2d(kernel_size=2)   
