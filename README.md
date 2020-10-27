@@ -10,9 +10,9 @@ The architecture was inspired by  [U-Net: Convolutional Networks for Biomedical 
 TNBC Data https://zenodo.org/record/1175282#.X29qm2gzZEY 
 
 
-Dataset : Image 50개 / Mask 50개 
+* Dataset : Image 50개 / Mask 50개 
 
-Image Shape : 512x512 
+* Image Shape : 512x512 
 
 <div>
 <img width='128' src='https://user-images.githubusercontent.com/52492949/96067497-d4254500-0ed4-11eb-8a41-9cd7717efb13.png'>
@@ -22,9 +22,9 @@ Image Shape : 512x512
 
 ### Image Patch 
 
-Data가 50개라 patch size로 잘라서 데이터 증가  빈배경 제거 ( 50개 -> 12250개 -> 7497개 )
+* Data가 50개라 patch size로 잘라서 데이터 증가  빈배경 제거 ( 50개 -> 12250개 -> 7497개 )
 
-Patch size : 64x64 , Overlap = 32
+* Patch size : 64x64 , Overlap = 32
 
 <div>
 <img width='128' src='https://user-images.githubusercontent.com/52492949/96068639-76dec300-0ed7-11eb-9acf-a874dac0be29.png'>
@@ -39,9 +39,9 @@ Patch size : 64x64 , Overlap = 32
 
 ### Data Split 
 
-train , val , test = 60% , 20% , 20%
+* train , val , test = 60% , 20% , 20%
 
-train , val , test = 4492 , 1497 , 1498
+* train , val , test = 4492 , 1497 , 1498
 
 
 ### Model [Unet]
@@ -55,7 +55,7 @@ train , val , test = 4492 , 1497 , 1498
  
 ### Metric
 
-Iou 
+* Iou 
 
 
 
@@ -70,4 +70,4 @@ Iou
 
 ### Run Example 
 
-python3 main.py --lr=1e-3 --epochs=100 --train_batch=64 --val_batch=16 --test_batch=16 --weight_decay=0.0 --gpu=2,3
+* python3 main.py --lr=1e-3 --epochs=100 --train_batch=64 --val_batch=16 --test_batch=16 --weight_decay=0.0 --gpu=2,3
