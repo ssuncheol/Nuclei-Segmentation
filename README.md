@@ -77,7 +77,7 @@ pip install opencv-python-headless
 python3 main.py --lr=1e-3 --epochs=100 --train_batch=64 --val_batch=16 --test_batch=16 --weight_decay=0.0 --gpu=2,3
 ``` 
 
-### Result
+### Result example
 Input Image            |  Output Segmentation Image  | Ground Truth
 :-------------------------:|:-------------------------:|:-------------------------:
 <img width='256' src='https://user-images.githubusercontent.com/52492949/97475604-ce2d6a80-1990-11eb-8d26-f009e1783fc0.png'>|<img width='256' src='https://user-images.githubusercontent.com/52492949/97475619-d1c0f180-1990-11eb-9ac9-a0199f6bfd23.png'>|<img width='256' src='https://user-images.githubusercontent.com/52492949/97475611-cff72e00-1990-11eb-9c5e-417b2ad9f18e.png'>
