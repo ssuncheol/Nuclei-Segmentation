@@ -61,6 +61,13 @@ Input Image            |  Output Segmentation Image
 ### Dependencies
 
 * Pytorch 
+* opencv for python
+
+### Installing 
+
+```sh 
+pip install opencv-python-headless
+```
 
 
 ### Run Example 
