@@ -23,7 +23,7 @@ TNBC Data https://zenodo.org/record/1175282#.X29qm2gzZEY
 
 ### Image Patch 
 
-* Data가 50개라 patch size로 잘라서 데이터 증가  빈배경 제거 ( 50개 -> 12250개 -> 7497개 )
+* 50개의 data를 patch size에  crop & 빈배경제거 ( 50개 -> 12250개 -> 7497개 )
 
 * Patch size : 64x64 , Overlap = 32
 
