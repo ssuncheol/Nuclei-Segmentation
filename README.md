@@ -15,6 +15,7 @@ TNBC Data https://zenodo.org/record/1175282#.X29qm2gzZEY
 
 * Image Shape : 512x512 
 
+
 Input Image            |  Output Segmentation Image
 :-------------------------:|:-------------------------:
 <img width='256' src='https://user-images.githubusercontent.com/52492949/96067497-d4254500-0ed4-11eb-8a41-9cd7717efb13.png'> | <img width='256' src='https://user-images.githubusercontent.com/52492949/96067543-eef7b980-0ed4-11eb-8cda-e46c83e94371.png'>
@@ -26,6 +27,7 @@ Input Image            |  Output Segmentation Image
 * 50개의 data를 patch size에  crop & 빈배경제거 ( 50개 -> 12250개 -> 7497개 )
 
 * Patch size : 64x64 , Overlap = 32
+
 
 Input Image            |  Output Segmentation Image
 :-------------------------:|:-------------------------:
@@ -73,3 +75,8 @@ pip install opencv-python-headless
 ### Run Example 
 ```sh
 python3 main.py --lr=1e-3 --epochs=100 --train_batch=64 --val_batch=16 --test_batch=16 --weight_decay=0.0 --gpu=2,3
+``` 
+
+### Result
+Input Image            |  Output Segmentation Image  | Ground Truth
+:-------------------------:|:-------------------------:|:-------------------------:
