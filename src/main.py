@@ -141,12 +141,13 @@ def main():
             output[0]))
             
             iou_value = IOU(output,label)
-            wandb.log({'IOU':wandb.Histogram(iou_value)})
+            wandb.log({'IOU of test batch':wandb.Histogram(iou_value)})
             iou_values+=iou_value
             
         wandb.log({'Raw' : raw_images,
                    'Ground truth' : ground_truth,
                    'Masking' : masking})
+        wandb.log({'IOU' : iou_values/len(test_loader)})
         #import ipdb; ipdb.set_trace()
     
 if __name__ == '__main__':
