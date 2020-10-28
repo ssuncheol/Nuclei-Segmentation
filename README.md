@@ -70,4 +70,4 @@ TNBC Data https://zenodo.org/record/1175282#.X29qm2gzZEY
 
 ### Run Example 
 
-* python3 main.py --lr=1e-3 --epochs=100 --train_batch=64 --val_batch=16 --test_batch=16 --weight_decay=0.0 --gpu=2,3
+python3 main.py --lr=1e-3 --epochs=100 --train_batch=64 --val_batch=16 --test_batch=16 --weight_decay=0.0 --gpu=2,3
