@@ -60,8 +60,6 @@ def main():
     
     #dataloader
 
-    transform=transforms.Compose([transforms.ToTensor()])
-    
     train =Nuclei('/daintlab/data/TNBC/train',transform=transform)
     val = Nuclei('/daintlab/data/TNBC/val',transform=transform)
     test = Nuclei('/daintlab/data/TNBC/test',transform=transform)
@@ -90,15 +88,11 @@ def main():
         for batch,nuc in enumerate(trn_loader):
             label = nuc['label'].cuda()
             input = nuc['input'].cuda()
-        
             output = model(input)
         
             optimizer.zero_grad()
-
             loss = criterion(output,label)
-        
             loss.backward()
-        
             optimizer.step()
         
             tr_loss += loss 
@@ -107,18 +101,14 @@ def main():
         
             if (batch+1) % 10 == 0 :     
                 with torch.no_grad(): 
-                    
                     va_loss=0.0
                     for j,nuc in enumerate(val_loader): 
                         label = nuc['label'].cuda()
                         input = nuc['input'].cuda()
-            
                         output = model(input)
-                
+    
                         v_loss = criterion(output,label)
-                
                         va_loss += v_loss
-        
                 print("epoch : {} | step : {} | trn loss : {:.4f} | val loss : {:.4f}".format(epoch,batch+1, tr_loss / 10, va_loss / len(val_loader)))     
                 wandb.log({"epoch" : epoch,
                        "trn loss" : tr_loss/10,
@@ -137,31 +127,27 @@ def main():
             label = nuc['label'].cuda()
             input = nuc['input'].cuda()
             label = label.cpu().numpy()
+            
             out = model(input)
-        
             output = out.cpu().numpy()
             output[output>0.5]=1
             output[output<0.5]=0
+            
             raw_images.append(wandb.Image(
             input[0]))
             ground_truth.append(wandb.Image(
             label[0]))
-        
             masking.append(wandb.Image(
             output[0]))
+            
             iou_value = IOU(output,label)
             wandb.log({'IOU':wandb.Histogram(iou_value)})
-            
             iou_values+=iou_value
+            
         wandb.log({'Raw' : raw_images,
                    'Ground truth' : ground_truth,
                    'Masking' : masking})
-        
-        wandb.log({'IOU' :iou_values/len(test_loader)})
-        
         #import ipdb; ipdb.set_trace()
     
-
-
 if __name__ == '__main__':
     main()                    
