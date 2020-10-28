@@ -58,16 +58,14 @@ TNBC Data https://zenodo.org/record/1175282#.X29qm2gzZEY
 
 * Iou 
 
-
-
-
-
-### Results  
-
-
-
-
 ---
+
+## How to use 
+
+### Dependencies
+
+* Pytorch 
+
 
 ### Run Example 
 ```sh
