@@ -59,7 +59,7 @@ def main():
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
     
     #dataloader
-
+    transform=transforms.Compose([transforms.ToTensor()])
     train =Nuclei('/daintlab/data/TNBC/train',transform=transform)
     val = Nuclei('/daintlab/data/TNBC/val',transform=transform)
     test = Nuclei('/daintlab/data/TNBC/test',transform=transform)

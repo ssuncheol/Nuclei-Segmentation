@@ -49,4 +49,4 @@ class Nuclei(Dataset):
   def __len__(self):         
       return len(self.image_paths)
 
-transform=transforms.Compose([transforms.ToTensor()])
+
