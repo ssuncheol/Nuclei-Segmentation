@@ -60,8 +60,6 @@ Image            |  Mask
 
 ## How to use 
 
-## How to use 
-
 ### Languages 
 
 <p align="left">
