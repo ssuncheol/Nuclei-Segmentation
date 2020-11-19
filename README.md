@@ -1,7 +1,6 @@
 # Nuclei-Segmentation 
 
-**The architecture was inspired by  [U-Net: Convolutional Networks for Biomedical Image Segmentation](https://arxiv.org/abs/1505.04597)[![GitHub stars]
-(https://img.shields.io/github.com/zhixuhao/unet.svg?logo=github&label=Stars)]**
+**The architecture was inspired by  [U-Net: Convolutional Networks for Biomedical Image Segmentation](https://arxiv.org/abs/1505.04597)
 
 ---
 
