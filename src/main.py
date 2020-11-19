@@ -6,6 +6,7 @@ import torchvision
 import torchvision.transforms as transforms
 import torch.utils.data as data
 import matplotlib.pyplot as plt 
+import imgaug.augmenters as iaa 
 import cv2
 import os
 import numpy as np
@@ -16,7 +17,7 @@ import wandb
 from dataloader import Nuclei 
 from model import UNET 
 from evaluate import IOU
-
+import time 
 def main():
     wandb.init(project="nuclei-segmentation")
     parser = argparse.ArgumentParser()
@@ -30,7 +31,7 @@ def main():
                     help='dropout rate')
     parser.add_argument('--epochs',
                     type=int,
-                    default=10,
+                    default=50,
                     help='num epochs')
     parser.add_argument('--train_batch',
                     type=int,
@@ -46,7 +47,7 @@ def main():
                     help='validation batch size')
     parser.add_argument('--weight_decay',
                     type=float,
-                    default=0.0,
+                    default=0.0001,
                     help='weight_decay')
     parser.add_argument('--gpu',
                     type=str,
@@ -58,8 +59,17 @@ def main():
 
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
     
+    
     #dataloader
-    transform=transforms.Compose([transforms.ToTensor()])
+    transform=transforms.Compose([
+                                  transforms.ToPILImage(),
+                                  #transforms.ColorJitter(brightness=0.1),
+                                  #transforms.RandomHorizontalFlip(p=0.1),
+                                  #transforms.RandomVerticalFlip(p=0.1),
+                                  transforms.RandomRotation(degrees=45),
+                                  transforms.ToTensor(),
+                                  ])
+    
     train =Nuclei('/daintlab/data/TNBC/train',transform=transform)
     val = Nuclei('/daintlab/data/TNBC/val',transform=transform)
     test = Nuclei('/daintlab/data/TNBC/test',transform=transform)
@@ -68,10 +78,14 @@ def main():
     val_loader = data.DataLoader(val,batch_size=args.val_batch,shuffle=True,num_workers=4)
     test_loader = data.DataLoader(test,batch_size=args.test_batch,shuffle=False,num_workers=0)
     
+    print(len(trn_loader))
+    print(len(val_loader))
+    print(len(test_loader))
+    
     #model 
     
     model =UNET().cuda()
-    model = nn.DataParallel(model)
+    
     
     #loss function
     
@@ -85,11 +99,12 @@ def main():
     for epoch in range(args.epochs):
         model.train()
         tr_loss=0.0
+        t1=time.time()
         for batch,nuc in enumerate(trn_loader):
             label = nuc['label'].cuda()
             input = nuc['input'].cuda()
             output = model(input)
-        
+           
             optimizer.zero_grad()
             loss = criterion(output,label)
             loss.backward()
@@ -114,6 +129,8 @@ def main():
                        "trn loss" : tr_loss/10,
                        "val loss" : va_loss/len(val_loader)})
                 tr_loss=0.0
+                t2=time.time()
+                print('train time : {}'.format(t2-t1))
                 
     #test 
                 
@@ -151,4 +168,4 @@ def main():
         #import ipdb; ipdb.set_trace()
     
 if __name__ == '__main__':
-    main()                    
+    main()                      
