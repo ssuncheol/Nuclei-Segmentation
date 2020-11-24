@@ -16,7 +16,7 @@ import argparse
 import wandb 
 from dataloader import Nuclei 
 from model import UNET 
-from evaluate import IOU
+from metrics import IOU
 import time 
 def main():
     wandb.init(project="nuclei-segmentation")
@@ -31,7 +31,7 @@ def main():
                     help='dropout rate')
     parser.add_argument('--epochs',
                     type=int,
-                    default=50,
+                    default=150,
                     help='num epochs')
     parser.add_argument('--train_batch',
                     type=int,
@@ -60,51 +60,44 @@ def main():
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
     
     
-    #dataloader
-    transform=transforms.Compose([
-                                  transforms.ToPILImage(),
-                                  #transforms.ColorJitter(brightness=0.1),
-                                  #transforms.RandomHorizontalFlip(p=0.1),
-                                  #transforms.RandomVerticalFlip(p=0.1),
-                                  transforms.RandomRotation(degrees=45),
-                                  transforms.ToTensor(),
-                                  ])
+    #data 
+    train ='/daintlab/data/TNBC/train'
+    val = '/daintlab/data/TNBC/val'
+    test = '/daintlab/data/TNBC/test'
     
-    train =Nuclei('/daintlab/data/TNBC/train',transform=transform)
-    val = Nuclei('/daintlab/data/TNBC/val',transform=transform)
-    test = Nuclei('/daintlab/data/TNBC/test',transform=transform)
-
-    trn_loader = data.DataLoader(train,batch_size=args.train_batch,shuffle=True,num_workers=4)
-    val_loader = data.DataLoader(val,batch_size=args.val_batch,shuffle=True,num_workers=4)
-    test_loader = data.DataLoader(test,batch_size=args.test_batch,shuffle=False,num_workers=0)
+    #transform
+    transform = transforms.Compose([transforms.ToTensor()])
     
-    print(len(trn_loader))
-    print(len(val_loader))
-    print(len(test_loader))
-    
-    #model 
-    
+     
     model =UNET().cuda()
-    
-    
-    #loss function
-    
-    criterion = nn.BCEWithLogitsLoss().cuda()
-    optimizer = optim.Adam(model.parameters(),lr=args.lr,weight_decay=args.weight_decay)
-
     wandb.watch(model)
     
-    #train
     
+    criterion = nn.BCEWithLogitsLoss().cuda()
+    optimizer = optim.Adam(model.parameters(),lr=args.lr,weight_decay=args.weight_decay)                                
+    
+    def train_load(train,val,transform):
+   
+        train =Nuclei(train,transform)
+        val = Nuclei(val,transform)
+            
+        trn_loader = data.DataLoader(train,batch_size=args.train_batch,shuffle=True,num_workers=4)
+        val_loader = data.DataLoader(val,batch_size=args.val_batch,shuffle=True,num_workers=4)
+        return trn_loader , val_loader
+
+    #train
+
     for epoch in range(args.epochs):
         model.train()
         tr_loss=0.0
         t1=time.time()
+        iou_values=0.0
+        trn_loader , val_loader = train_load(train,val,transform)
         for batch,nuc in enumerate(trn_loader):
             label = nuc['label'].cuda()
             input = nuc['input'].cuda()
             output = model(input)
-           
+            
             optimizer.zero_grad()
             loss = criterion(output,label)
             loss.backward()
@@ -117,27 +110,38 @@ def main():
             if (batch+1) % 10 == 0 :     
                 with torch.no_grad(): 
                     va_loss=0.0
-                    for j,nuc in enumerate(val_loader): 
+                    for j,nuc in enumerate(val_loader):
                         label = nuc['label'].cuda()
-                        input = nuc['input'].cuda()
-                        output = model(input)
-    
-                        v_loss = criterion(output,label)
+                        input = nuc['input'].cuda() 
+                        label = label.cpu().numpy()
+                        out = model(input)
+                        output = out.cpu().numpy()
+                        output[output>0.5]=1
+                        output[output<0.5]=0
+                        v_loss = criterion(output.detach(),label)
                         va_loss += v_loss
+                        iou_value = IOU(output,label)
+                        iou_values+=iou_value
                 print("epoch : {} | step : {} | trn loss : {:.4f} | val loss : {:.4f}".format(epoch,batch+1, tr_loss / 10, va_loss / len(val_loader)))     
                 wandb.log({"epoch" : epoch,
                        "trn loss" : tr_loss/10,
                        "val loss" : va_loss/len(val_loader)})
+                wandb.log({'IOU_val' : iou_values/len(val_loader)})
                 tr_loss=0.0
                 t2=time.time()
                 print('train time : {}'.format(t2-t1))
                 
+                                      
     #test 
-                
+    test = Nuclei(test,transform)
+    test_loader = data.DataLoader(test,batch_size=args.test_batch,shuffle=True,num_workers=4)
+    
+    
     raw_images = []
     ground_truth = []
     masking = []
     iou_values=0.0
+    
     with torch.no_grad():
         model.eval()
         for batch,nuc in enumerate(test_loader): 
@@ -158,14 +162,14 @@ def main():
             output[0]))
             
             iou_value = IOU(output,label)
-            wandb.log({'IOU of test batch':wandb.Histogram(iou_value)})
+            #wandb.log({'IOU of test batch':wandb.Histogram(iou_value)})
             iou_values+=iou_value
             
-        wandb.log({'Raw' : raw_images,
-                   'Ground truth' : ground_truth,
-                   'Masking' : masking})
-        wandb.log({'IOU' : iou_values/len(test_loader)})
-        #import ipdb; ipdb.set_trace()
-    
+            #wandb.log({'Raw' : raw_images,
+                    #'Ground truth' : ground_truth,
+                    #'Masking' : masking})
+            wandb.log({'IOU' : iou_values/len(test_loader)})
+            #import ipdb; ipdb.set_trace()            
+            
 if __name__ == '__main__':
-    main()                      
+    main()                    
