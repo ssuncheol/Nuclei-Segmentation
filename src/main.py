@@ -170,7 +170,7 @@ def main():
     #test
      
     test = Nuclei(test,transform_val)
-    test_loader = data.DataLoader(test,batch_size=args.test_batch,shuffle=True,num_workers=4)
+    test_loader = data.DataLoader(test,batch_size=args.test_batch,shuffle=False,num_workers=4)
     
     
     raw_images = []
